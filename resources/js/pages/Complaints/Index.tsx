@@ -1,8 +1,8 @@
 import { Link } from '@inertiajs/react';
-import { Button } from '@/Components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/Components/ui/card';
-import { Badge } from '@/Components/ui/badge';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/Components/ui/select';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useForm } from '@inertiajs/react';
 import { toast } from 'sonner';
 
@@ -27,11 +27,13 @@ interface Props {
 }
 
 export default function Index({ complaints, auth }: Props) {
-    const { patch } = useForm();
+    const form = useForm({
+        status: '',
+    });
 
     const handleStatusChange = (complaintId: number, status: string) => {
-        patch(route('complaints.update', complaintId), {
-            status,
+        form.setData('status', status);
+        form.patch(route('complaints.update', complaintId), {
             onSuccess: () => {
                 toast.success('Status updated successfully');
             },
