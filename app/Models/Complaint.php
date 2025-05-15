@@ -9,17 +9,18 @@ use Illuminate\Support\Str;
 class Complaint extends Model
 {
     protected $fillable = [
-        'ticket_id',
+        'complaint_id',
         'campus_id',
         'category_id',
         'description',
+        'image_path',
         'contact_name',
         'contact_email',
         'contact_phone',
         'status',
         'coordinator_id',
         'worker_id',
-        'internal_notes',
+        'date_time',
     ];
 
     protected static function boot()
@@ -27,7 +28,7 @@ class Complaint extends Model
         parent::boot();
 
         static::creating(function ($complaint) {
-            $complaint->ticket_id = 'TICKET-' . strtoupper(Str::random(8));
+            $complaint->complaint_id = 'COMP-' . strtoupper(Str::random(8));
         });
     }
 
