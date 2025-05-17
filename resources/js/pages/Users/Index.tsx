@@ -37,7 +37,7 @@ export default function Index({ users }: Props) {
             admin: 'bg-red-500',
             coordinator: 'bg-blue-500',
             worker: 'bg-green-500',
-            manager: 'bg-purple-500',
+            stud_service_director: 'bg-purple-500',
         };
 
         return (

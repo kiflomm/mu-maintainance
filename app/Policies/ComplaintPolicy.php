@@ -9,12 +9,12 @@ class ComplaintPolicy
 {
     public function viewAny(User $user): bool
     {
-        return $user->isCoordinator() || $user->isWorker() || $user->isManager();
+        return $user->isCoordinator() || $user->isWorker() || $user->isStudentServiceDirector();
     }
 
     public function view(User $user, Complaint $complaint): bool
     {
-        if ($user->isManager()) {
+        if ($user->isStudentServiceDirector()) {
             return true;
         }
 

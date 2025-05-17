@@ -30,7 +30,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             return redirect()->route('complaints.index');
         }
         
-        if ($user->isManager()) {
+        if ($user->isStudentServiceDirector()) {
             return redirect()->route('complaints.index');
         }
     })->name('dashboard');

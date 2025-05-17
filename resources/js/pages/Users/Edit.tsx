@@ -102,7 +102,7 @@ export default function Edit({ user, campuses }: Props) {
                                     <SelectContent>
                                         <SelectItem value="coordinator">Coordinator</SelectItem>
                                         <SelectItem value="worker">Worker</SelectItem>
-                                        <SelectItem value="manager">Manager</SelectItem>
+                                        <SelectItem value="stud_service_director">Student Service Director</SelectItem>
                                     </SelectContent>
                                 </Select>
                                 {errors.role && (

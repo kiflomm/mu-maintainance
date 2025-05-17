@@ -14,7 +14,7 @@ export default function Navigation({ user }: Props) {
     const isAdmin = user.role === 'admin';
     const isCoordinator = user.role === 'coordinator';
     const isWorker = user.role === 'worker';
-    const isManager = user.role === 'manager';
+    const isStudentServiceDirector = user.role === 'stud_service_director';
 
     return (
         <nav className="bg-white border-b border-gray-100">
@@ -44,7 +44,7 @@ export default function Navigation({ user }: Props) {
                                 </Link>
                             )}
 
-                            {(isCoordinator || isWorker || isManager) && (
+                            {(isCoordinator || isWorker || isStudentServiceDirector) && (
                                 <Link
                                     href={route('complaints.index')}
                                     className={cn(
