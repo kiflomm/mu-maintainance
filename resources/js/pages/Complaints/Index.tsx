@@ -16,6 +16,7 @@ interface Props {
             campus: { name: string };
             category: { name: string };
             created_at: string;
+            image_url: string | null;
         }>;
         links: Array<{ url: string | null; label: string }>;
     };
@@ -73,6 +74,7 @@ export default function Index({ complaints, auth }: Props) {
                                         <th className="text-left py-3 px-4">Campus</th>
                                         <th className="text-left py-3 px-4">Category</th>
                                         <th className="text-left py-3 px-4">Description</th>
+                                        <th className="text-left py-3 px-4">Image</th>
                                         <th className="text-left py-3 px-4">Status</th>
                                         <th className="text-left py-3 px-4">Created</th>
                                         <th className="text-left py-3 px-4">Actions</th>
@@ -88,6 +90,17 @@ export default function Index({ complaints, auth }: Props) {
                                                 <div className="max-w-xs truncate">
                                                     {complaint.description}
                                                 </div>
+                                            </td>
+                                            <td className="py-3 px-4">
+                                                {complaint.image_url ? (
+                                                    <img 
+                                                        src={complaint.image_url} 
+                                                        alt="Thumbnail" 
+                                                        className="h-12 w-12 object-cover rounded"
+                                                    />
+                                                ) : (
+                                                    <span className="text-gray-400">No image</span>
+                                                )}
                                             </td>
                                             <td className="py-3 px-4">
                                                 {getStatusBadge(complaint.status)}

@@ -19,7 +19,7 @@ class ComplaintPolicy
         }
 
         if ($user->isCoordinator()) {
-            return $complaint->campus_id === $user->campus_id;
+            return $complaint->coordinator_id === $user->id;
         }
 
         if ($user->isWorker()) {
@@ -32,7 +32,7 @@ class ComplaintPolicy
     public function update(User $user, Complaint $complaint): bool
     {
         if ($user->isCoordinator()) {
-            return $complaint->campus_id === $user->campus_id && $complaint->status === 'pending';
+            return $complaint->coordinator_id === $user->id && $complaint->status === 'pending';
         }
 
         if ($user->isWorker()) {

@@ -20,7 +20,9 @@ interface Props {
         internal_notes: string | null;
         created_at: string;
         updated_at: string;
+        image_path: string | null;
     };
+    image_url: string | null;
     auth: {
         user: {
             role: string;
@@ -28,7 +30,7 @@ interface Props {
     };
 }
 
-export default function Show({ complaint, auth }: Props) {
+export default function Show({ complaint, image_url, auth }: Props) {
     const { data, setData, patch, processing, errors } = useForm({
         status: complaint.status,
         internal_notes: complaint.internal_notes || '',
@@ -92,6 +94,19 @@ export default function Show({ complaint, auth }: Props) {
                                 <h3 className="text-sm font-medium text-gray-500">Description</h3>
                                 <p className="mt-1 whitespace-pre-wrap">{complaint.description}</p>
                             </div>
+
+                            {image_url && (
+                                <div>
+                                    <h3 className="text-sm font-medium text-gray-500">Attached Image</h3>
+                                    <div className="mt-2">
+                                        <img 
+                                            src={image_url} 
+                                            alt="Attached image" 
+                                            className="max-h-80 object-contain rounded-md border border-gray-200"
+                                        />
+                                    </div>
+                                </div>
+                            )}
 
                             {(complaint.contact_name || complaint.contact_email || complaint.contact_phone) && (
                                 <div>

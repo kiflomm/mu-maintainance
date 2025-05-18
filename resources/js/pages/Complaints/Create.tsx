@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
+import { useState } from 'react';
 
 interface Props {
     campuses: Array<{ id: number; name: string; code: string }>;
@@ -13,20 +14,41 @@ interface Props {
 }
 
 export default function Create({ campuses, categories }: Props) {
-    const { data, setData, post, processing, errors } = useForm({
+    const [imagePreview, setImagePreview] = useState<string | null>(null);
+    
+    const { data, setData, post, processing, errors, reset } = useForm({
         campus_id: '',
         category_id: '',
         description: '',
         contact_name: '',
         contact_email: '',
         contact_phone: '',
+        image: null as File | null,
     });
+
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0] || null;
+        setData('image', file);
+        
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                setImagePreview(e.target?.result as string);
+            };
+            reader.readAsDataURL(file);
+        } else {
+            setImagePreview(null);
+        }
+    };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         post(route('complaints.store'), {
+            forceFormData: true,
             onSuccess: () => {
                 toast.success('Complaint submitted successfully');
+                reset();
+                setImagePreview(null);
             },
             onError: () => {
                 toast.error('Failed to submit complaint');
@@ -39,7 +61,7 @@ export default function Create({ campuses, categories }: Props) {
             <div className="max-w-2xl mx-auto px-4">
                 <Card>
                     <CardHeader>
-                        <CardTitle>Submit a Complaint</CardTitle>
+                        <CardTitle>Submit a Complaint </CardTitle>
                         <CardDescription>
                             Please fill out the form below to submit your complaint. We will process it as soon as possible.
                         </CardDescription>
@@ -101,6 +123,39 @@ export default function Create({ campuses, categories }: Props) {
                                 />
                                 {errors.description && (
                                     <p className="text-sm text-red-500">{errors.description}</p>
+                                )}
+                            </div>
+
+                            <div className="space-y-2">
+                                <Label htmlFor="image">Image (Optional)</Label>
+                                <Input
+                                    id="image"
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleImageChange}
+                                    className="cursor-pointer"
+                                />
+                                {errors.image && (
+                                    <p className="text-sm text-red-500">{errors.image}</p>
+                                )}
+                                {imagePreview && (
+                                    <div className="mt-2 relative">
+                                        <img 
+                                            src={imagePreview} 
+                                            alt="Preview" 
+                                            className="w-full max-h-60 object-contain rounded-md" 
+                                        />
+                                        <button
+                                            type="button"
+                                            className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full"
+                                            onClick={() => {
+                                                setData('image', null);
+                                                setImagePreview(null);
+                                            }}
+                                        >
+                                            ✕
+                                        </button>
+                                    </div>
                                 )}
                             </div>
 
